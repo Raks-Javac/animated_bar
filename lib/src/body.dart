@@ -1,93 +1,67 @@
+import 'package:animated_snack_bar/src/animation/bar_animation.dart';
+import 'package:animated_snack_bar/src/core/style.dart';
 import 'package:flutter/material.dart';
 
-class AnimatedSnackBar extends StatefulWidget {
-  AnimationController animationController;
-  AnimatedSnackBar({Key? key, required this.animationController})
-      : super(key: key);
-
-  @override
-  _AnimatedSnackBarState createState() => _AnimatedSnackBarState();
-}
-
-class _AnimatedSnackBarState extends State<AnimatedSnackBar>
-    with SingleTickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-    widget.animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizeTransition(
-        sizeFactor: CurvedAnimation(
-          curve: Curves.fastOutSlowIn,
-          parent: widget.animationController,
-        ),
-        child: Container(height: 100, color: Colors.blue));
-    ;
-  }
-}
-
 class BarTester extends StatefulWidget {
-  BarTester({Key? key}) : super(key: key);
+  const BarTester({Key? key}) : super(key: key);
 
   @override
   _BarTesterState createState() => _BarTesterState();
 }
 
-class _BarTesterState extends State<BarTester>
-    with SingleTickerProviderStateMixin {
+class _BarTesterState extends State<BarTester> {
   late AnimationController animationController;
-  @override
-  void initState() {
-    super.initState();
-    animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Text("Flutter animated bar"),
+        ),
         body: Container(
-      child: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
             children: [
-              Center(
-                child: MaterialButton(
-                  color: Theme.of(context).primaryColor,
-                  onPressed: () {
-                    setState(() {
-                      animationController.forward();
-                    });
-                  },
-                  child: Text("hi"),
-                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: MaterialButton(
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        setState(() {
+                          animationController.forward();
+                        });
+                      },
+                      child: const Text(
+                        "open bar",
+                        style: kButtonTextStyle,
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: MaterialButton(
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        setState(() {
+                          animationController.reverse();
+                        });
+                      },
+                      child: const Text(
+                        "Close bar",
+                        style: kButtonTextStyle,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Center(
-                child: MaterialButton(
-                  color: Theme.of(context).primaryColor,
-                  onPressed: () {
-                    setState(() {
-                      animationController.reverse();
-                    });
-                  },
-                  child: Text("hi"),
-                ),
-              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AnimatedSnackBar(animationController: animationController)
+                ],
+              )
             ],
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              AnimatedSnackBar(animationController: animationController)
-            ],
-          )
-        ],
-      ),
-    ));
+        ));
   }
 }
