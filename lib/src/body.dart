@@ -1,5 +1,6 @@
 import 'package:animated_snack_bar/src/animation/bar_animation.dart';
 import 'package:animated_snack_bar/src/core/style.dart';
+import 'package:animated_snack_bar/src/core/utils.dart';
 import 'package:flutter/material.dart';
 
 class BarTester extends StatefulWidget {
@@ -48,6 +49,18 @@ class _BarTesterState extends State<BarTester> {
                       },
                       child: const Text(
                         "Close bar",
+                        style: kButtonTextStyle,
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: MaterialButton(
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        snackbar();
+                      },
+                      child: const Text(
+                        "Show snackbar",
                         style: kButtonTextStyle,
                       ),
                     ),
